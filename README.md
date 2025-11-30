@@ -712,3 +712,12 @@ public async Task<ErrorOr<Guid>> Handle(CreateSubscriptionCommand command)
 ```
 
 > **Nota de Arquitectura:** La interfaz `IUnitOfWork` se define en la capa de **Aplicación** (o Dominio), mientras que su implementación concreta (que inyecta el `DbContext` de EF Core) reside en la capa de **Infraestructura**, respetando la Regla de Dependencia.
+>
+
+## 6. Capa de infraestructura
+
+### Responsabilidades
+
+- Interactuar con la solución persistente. Ej: bases de datos SQL/NoSQL.
+- Interactuar con otros servicios externos como servicios de email, pasarelas de pago, message brokers, etc.
+- Interactuar con el sistema operativo (sistema de archivos, reloj del sistema, etc).

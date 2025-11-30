@@ -1,0 +1,16 @@
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\bin\Debug\net7.0\GymManagement.Application.deps.json
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\bin\Debug\net7.0\GymManagement.Application.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\bin\Debug\net7.0\GymManagement.Application.pdb
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\bin\Debug\net7.0\GymManagement.Domain.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\bin\Debug\net7.0\GymManagement.Domain.pdb
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.csproj.AssemblyReference.cache
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.AssemblyInfoInputs.cache
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.AssemblyInfo.cs
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.csproj.CoreCompileInputs.cache
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.sourcelink.json
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManag.E831DFE7.Up2Date
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\refint\GymManagement.Application.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\GymManagement.Application.pdb
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Application\obj\Debug\net7.0\ref\GymManagement.Application.dll

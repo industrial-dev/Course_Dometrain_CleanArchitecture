@@ -1,0 +1,12 @@
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\bin\Debug\net7.0\GymManagement.Contracts.deps.json
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\bin\Debug\net7.0\GymManagement.Contracts.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\bin\Debug\net7.0\GymManagement.Contracts.pdb
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.AssemblyInfoInputs.cache
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.AssemblyInfo.cs
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.sourcelink.json
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\refint\GymManagement.Contracts.dll
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.pdb
+C:\Users\industrialdev\Documents\Dometrain_Course_CleanArchitecture\src\GymManagement.Contracts\obj\Debug\net7.0\ref\GymManagement.Contracts.dll
