@@ -1,0 +1,27 @@
+## Build results
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+
+## NuGet
+*.nupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.assets.json
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+
+## macOS
+.DS_Store
