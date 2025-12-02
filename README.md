@@ -976,12 +976,6 @@ sequenceDiagram
     Dev->>EF: dotnet ef database update PreviousMigration
     EF->>DB: Ejecuta Down() → ALTER TABLE DROP COLUMN
     DB-->>EF: Schema revertido
-
-    style Dev fill:#8b95a3,stroke:#5a6471,stroke-width:2px
-    style Model fill:#7c8794,stroke:#4b5563,stroke-width:2px
-    style EF fill:#6b7280,stroke:#374151,stroke-width:2px
-    style Mig fill:#8c96a4,stroke:#5b6572,stroke-width:2px
-    style DB fill:#4b5563,stroke:#1f2937,stroke-width:2px
 ```
 
 **Comandos esenciales:**
