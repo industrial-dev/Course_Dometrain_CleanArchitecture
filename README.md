@@ -264,15 +264,9 @@ graph TD
 
 > **Regla de Dependencia:** El código fuente solo puede apuntar hacia adentro. El Dominio no sabe nada de la Infraestructura.
 
-## 3. Desglose de Capas
-
-Este diagrama ilustra la relación entre las capas lógicas y la estructura física de proyectos recomendada en el curso (Sección 0020), destacando la separación de los contratos.
-
-## 🏗️ Clean Architecture (Arquitectura Limpia)
+## 3. Clean Architecture (Arquitectura Limpia)
 
 Este diagrama representa la jerarquía y el flujo de dependencias de una aplicación bajo los principios de Arquitectura Limpia, donde las flechas apuntan **hacia dentro**, hacia las capas más estables y de alto nivel (el Dominio).
-
-[Image of the Clean Architecture Onion Diagram]
 
 ```mermaid
 graph TD
@@ -699,7 +693,7 @@ public async Task<ErrorOr<Guid>> Handle(CreateSubscriptionCommand command)
 
 > **Nota de Arquitectura:** La interfaz `IUnitOfWork` se define en la capa de **Aplicación** (o Dominio), mientras que su implementación concreta (que inyecta el `DbContext` de EF Core) reside en la capa de **Infraestructura**, respetando la Regla de Dependencia.
 
-## 6. Capa de infraestructura
+## 6. Capa de infraestructura en Clean Architecture
 
 ### Responsabilidades
 
@@ -778,10 +772,18 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
             .HasConversion<string>(); // Enum como string en BD
 
         // Propiedades que son enums
+        // Si quiero almacenar en BD el string del Enum
+
         builder.Property(s => s.SubscriptionType)
             .HasConversion(
                 subscriptionType => subscriptionType.ToString(),               // A BD
                 value => (SubscriptionType)Enum.Parse(typeof(SubscriptionType), value) // De BD
+            );
+        // Si quiero almacenar en BD el valor numérico del Enum
+        builder.Property(s => s.Status)
+            .HasConversion(
+                status => (int)status,               // A BD
+                value => (SubscriptionStatus)value    // De BD
             );
 
         // Configurar campo privado (para EF Core)
@@ -1185,14 +1187,14 @@ El modelo de dominio no debe contener detalles de persistencia (como Entity Fram
 
 Esto no solo ocurre en la capa de dominio, sino también en la capa de aplicación. Ninguna de estas capas debe tener referencias directas a tecnologías de persistencia. En su lugar, deben depender de abstracciones (interfaces) que se implementan en la capa de infraestructura. Por ejemplo, un repositorio definido en la capa de aplicación o dominio, y su implementación concreta en la capa de infraestructura.
 
-## Responsabilidades de la capa de Dominio
+### Responsabilidades de la capa de Dominio
 
 - Definir los **modelos** de dominio: entidades, objetos de valor, enums, agregados y servicios de dominio.
 - Definir los **errores** y **excepciones** específicas del dominio.
 - Ejecutar la **lógica de negocio** pura, sin depender de detalles de infraestructura o presentación.
 - Asegurar que se cumplen las **reglas de negocio**
 
-## Nota importante relacionada con la la capa de Dominio y la de infraestructura si se utiliza Entity Framework Core
+### Nota importante relacionada con la capa de Dominio y la de infraestructura si se utiliza Entity Framework Core
 
 Para que EF actualice correctamente las entidades en la base de datos, es necesario que las propiedades que representan las columnas de la tabla sean públicas y tengan tanto getters como setters. Esto puede entrar en conflicto con el principio de encapsulación del modelo de dominio, donde se busca mantener las propiedades privadas o protegidas para controlar el acceso y la modificación de los datos.
 
@@ -1215,3 +1217,190 @@ public class Subscription
     }
 
 ```
+
+## 8. Errores de la capa de **PRESENTACIÓN** VS Errores de la capa de **APLICACIÓN** VS Errores de la capa de **DOMINIO**
+
+### Errores de la capa de Presentación (API)
+
+Errores relacionados con la interacción del usuario o cliente con la API. Incluyen validaciones de entrada, autenticación, autorización y errores HTTP. La capa de presentación debe mapear estos errores a códigos HTTP apropiados para que el cliente pueda entender y manejar la respuesta correctamente.
+
+#### Responsabilidades
+
+- Peticiones de datos inválidos
+- Peticiones de acciones que no existen
+- Autenticación y autorización: Manejar errores relacionados con la seguridad.
+- Convertir errores de la capa de Aplicación y Dominio en respuestas HTTP adecuadas.
+
+- Ejemplos:
+  - `400 Bad Request`: Datos de entrada inválidos.
+  - `401 Unauthorized`: Usuario no autenticado.
+  - `403 Forbidden`: Usuario no autorizado para acceder al recurso.
+  - `404 Not Found`: Recurso no encontrado.
+  - `429 Too Many Requests`: Límite de tasa excedido.
+  - `500 Internal Server Error`: Error inesperado en el servidor.
+  - `502 Bad Gateway`: Error al comunicarse con un servicio externo.
+  - `503 Service Unavailable`: Servicio temporalmente no disponible.
+  - ...
+
+### Errores de la capa de Aplicación
+
+Errores relacionados con la lógica de negocio y las operaciones que la aplicación realiza. Incluyen validaciones de reglas de negocio, conflictos de estado y errores específicos del dominio.
+
+#### Responsabilidades
+
+- Validación de datos de la capa de presentación
+- Autenticación y autorización
+- Conflictos de estado
+
+- Ejemplos:
+  - `User.HasActiveSubscription`: El usuario ya tiene una suscripción activa.
+  - `Gym.CapacityExceeded`: El gimnasio ha alcanzado su capacidad máxima.
+  - `Payment.Failed`: El pago no se pudo procesar.
+
+### Errores de la capa de Dominio
+
+Errores relacionados con las reglas y lógica del negocio. Estos errores son específicos del dominio y reflejan situaciones que violan las reglas establecidas por el negocio.
+
+Es importante tener en cuenta que los errores de dominio no deben ser mapeados directamente a códigos HTTP, ya que la capa de dominio no tiene conocimiento de la capa de presentación o de cómo se exponen los errores al usuario final. En su lugar, estos errores deben ser manejados por la capa de aplicación, que es responsable de traducirlos en respuestas adecuadas para la capa de presentación.
+
+Deben estar bien definidos y documentados para que los desarrolladores comprendan claramente las reglas del negocio y las restricciones impuestas por el dominio.
+
+#### Responsabilidades
+
+- Reglas de negocio específicas del dominio
+- Estados inválidos de las entidades
+- Manipulación incorrecta de objetos de dominio
+
+- Ejemplos:
+  - `SubscriptionType.Invalid`: Tipo de suscripción no válido.
+  - `Room.AlreadyExists`: La sala ya existe en el gimnasio.
+  - `Gym.NotFound`: El gimnasio no fue encontrado.
+
+### Flujo de manejo de errores entre capas
+
+En este punto hay diferentes posibles enfoques para manejar los errores entre las capas. Los 2 más comunes son:
+
+#### Excepciones (Exceptions)
+
+1. La capa de Dominio lanza excepciones específicas del dominio cuando se violan las reglas de negocio.
+2. La capa de Aplicación captura estas excepciones y las convierte en errores de aplicación.
+3. La capa de Presentación captura los errores de aplicación y los mapea a respuestas HTTP adecuadas.
+4. Finalmente, el cliente recibe una respuesta HTTP con el código de estado correspondiente y un mensaje de error.
+
+```mermaid
+sequenceDiagram
+    participant Controller
+    participant AppService
+    participant DomainModel
+    Controller->>AppService: Llama a CreateSubscription
+    AppService->>DomainModel: Crea nueva Suscripción
+    DomainModel-->>AppService: Lanza User.HasActiveSubscription Exception
+    AppService-->>Controller: Retorna Error de Aplicación
+    Controller->>Controller: Mapea a HTTP 409 Conflict
+```
+
+Es importante que los errores estén explícitamente definidos en el Dominio. La capa de Aplicación debe conocer estos errores para manejarlos adecuadamente y la capa de Presentación debe mapearlos a respuestas HTTP correctas.
+
+En cuanto a la capa de aplicación, se puede optar por capturar el error y devolver un objeto de error o utilizar excepciones para el flujo de control. Este es precisamente uno de los problemas que tiene este enfoque: se debe decidir si capturar el error y devolver un objeto de error o dejar que la excepción fluya hacia arriba. Esto puede llevar a inconsistencias en el manejo de errores si no se sigue una convención clara.
+
+#### El patrón Result (ErrorOr)
+
+1. La capa de Dominio devuelve objetos de resultado (`Result` o `ErrorOr`) que representan el éxito o fracaso de las operaciones. En este caso no se lanzan excepciones, pero sí se retornan errores que deben estar específicamente definidos en el Dominio.
+
+   > ¡OJO! Esto no quiere decir que no se utilicen excepciones en absoluto. Las excepciones siguen siendo útiles para errores inesperados o situaciones que no deberían ocurrir en condiciones normales. Sin embargo, para el flujo de control lógico y las validaciones de reglas de negocio, es preferible utilizar objetos de resultado.
+
+2. La capa de Aplicación recibe estos objetos de resultado y los maneja adecuadamente. Puede devolverlos directamente a la capa de Presentación o realizar alguna lógica adicional.
+3. La capa de Presentación recibe los objetos de resultado y los mapea a respuestas HTTP adecuadas.
+
+Cuando utilizamos el patrón Result (con librerías como `ErrorOr`), necesitamos configurar la capa de presentación para convertir automáticamente los errores en respuestas HTTP con el formato [RFC 7807 (Problem Details)](https://tools.ietf.org/html/rfc7807).
+
+#### Flujo de Manejo de Errores con ErrorOr
+
+```mermaid
+sequenceDiagram
+    participant C as Controller
+    participant H as Handler
+    participant D as Domain
+
+    C->>H: Send(Command)
+    H->>D: Validar reglas
+    alt Validación exitosa
+        D-->>H: Success
+        H-->>C: ErrorOr<Guid>(id)
+        C->>C: Match → Ok(200)
+    else Validación fallida
+        D-->>H: Error
+        H-->>C: ErrorOr<Guid>(error)
+        C->>C: Match → Problem(4xx)
+    end
+```
+
+**Configuración en `Program.cs`:**
+
+```csharp
+builder.Services.AddControllers();
+builder.Services.AddProblemDetails(); // RFC 7807
+
+app.UseExceptionHandler("/error");
+app.MapControllers();
+```
+
+**Controlador Base:**
+
+```csharp
+[ApiController]
+public class ApiController : ControllerBase
+{
+    protected IActionResult Problem(List<Error> errors)
+    {
+        var statusCode = errors[0].Type switch
+        {
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
+            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.NotFound => StatusCodes.Status404NotFound,
+            _ => StatusCodes.Status500InternalServerError,
+        };
+
+        return Problem(statusCode: statusCode, title: errors[0].Description);
+    }
+}
+```
+
+**Uso en Controladores:**
+
+```csharp
+[Route("api/subscriptions")]
+public class SubscriptionsController : ApiController
+{
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateSubscriptionRequest request)
+    {
+        var command = new CreateSubscriptionCommand(request.AdminId, request.Type);
+        ErrorOr<Guid> result = await _mediator.Send(command);
+
+        return result.Match(
+            id => CreatedAtAction(nameof(Get), new { id }, id),
+            errors => Problem(errors));
+    }
+}
+```
+
+**Ejemplo de Respuesta RFC 7807:**
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.8",
+  "title": "User already has an active subscription",
+  "status": 409,
+  "traceId": "00-abc123..."
+}
+```
+
+**Ventajas:**
+
+- Consistencia en formato de errores (RFC 7807)
+- Type-safety con `ErrorOr<T>`
+- Sin excepciones para flujo de control
+- Separación clara entre capas
+
+> **Nota:** Este patrón mantiene la independencia entre capas, evitando que detalles HTTP contaminen la lógica de negocio.
