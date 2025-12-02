@@ -1,0 +1,7 @@
+POST {{host}}/gyms/{{gymId}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "Name": "Lior's room"
+}
